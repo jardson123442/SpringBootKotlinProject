@@ -29,6 +29,7 @@ dependencies {
 	implementation(platform("org.mongodb:mongodb-driver-bom:5.5.1"))
 	implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
 	implementation("org.springframework.boot:spring-boot-starter-data-mongodb-reactive")
+	implementation("org.mongodb:mongodb-driver-kotlin-coroutine")
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.security:spring-security-crypto")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
