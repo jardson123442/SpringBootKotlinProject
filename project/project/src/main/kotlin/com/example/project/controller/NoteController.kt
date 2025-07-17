@@ -2,6 +2,8 @@ package com.example.project.controller
 
 import com.example.project.database.model.Note
 import com.example.project.database.repository.NoteRepository
+import com.example.project.database.resources.NoteRequestDto
+import com.example.project.database.resources.NoteResponseDto
 import org.bson.types.ObjectId
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -15,26 +17,11 @@ import java.time.Instant
 @RestController
 @RequestMapping("/notes")
 class NoteController (
-    private val repository: NoteRepository
+    private val repository: NoteRepository,
 ) {
 
-    data class NoteRequest(
-        val id: String?,
-        val title: String,
-        val content: String,
-        val color: Long,
-    )
-
-    data class NoteResponse(
-        val id: String,
-        val title: String,
-        val content: String,
-        val color: Long,
-        val createdAt: String
-    )
-
     @PostMapping
-    fun save(@RequestBody body: NoteRequest): ResponseEntity<NoteResponse> {
+    fun save(@RequestBody body: NoteRequestDto): ResponseEntity<NoteResponseDto> {
         val note = repository.save(
             Note(
                 id = body.id?.let { ObjectId(it) } ?: ObjectId.get(),
@@ -50,14 +37,14 @@ class NoteController (
     }
 
     @GetMapping
-    fun findByOwnerId(@RequestParam(required = true) ownerId: String): List<NoteResponse> {
+    fun findByOwnerId(@RequestParam(required = true) ownerId: String): List<NoteResponseDto> {
         return repository.findByOwnerId(ObjectId(ownerId)).map {
             it.toResponse()
         }
     }
 
-    private fun Note.toResponse(): NoteController.NoteResponse {
-        return NoteResponse(
+    private fun Note.toResponse(): NoteResponseDto {
+        return NoteResponseDto(
             id = id.toHexString(),
             title = title,
             content = content,
