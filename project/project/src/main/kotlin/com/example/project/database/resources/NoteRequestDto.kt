@@ -5,6 +5,4 @@ class NoteRequestDto (
     val title: String,
     val content: String,
     val color: Long,
-) {
-
-}
+)
